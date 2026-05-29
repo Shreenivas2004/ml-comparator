@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ML Evaluator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+  </head>
+  <body>
+    <form method="POST" action="/">
+      <div class="stack">
+        <p class="title">Select a task</p>
+        <button class="option-btn btn-classification" name="option" value="Classification" type="submit">Classification</button>
+        <button class="option-btn btn-clustering" name="option" value="Clustering" type="submit">Clustering</button>
+      </div>
+    </form>
+  </body>
+</html>

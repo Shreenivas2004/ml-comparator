@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ML application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='result.css') }}">
+  </head>
+  <body>
+    {%if opt=="Classification"%}
+    <form action="/result/{{opt}}" method="POST" enctype="multipart/form-data">
+      <div class="stack">
+        <div>
+          <p class="page-title">{{opt}}</p>
+          <p class="page-sub">Pick a model, upload your dataset, and we'll score it.</p>
+        </div>
+
+        <div>
+          <label class="field-label">Model</label>
+          <div class="select-wrap">
+            <select name="model_name" id="model_name">
+              {% for option in options %}
+              <option value="{{option}}">{{option}}</option>
+              {% endfor %}
+            </select>
+            <span class="chevron">&#8964;</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label">Dataset</label>
+          <label class="upload-label" id="upload-label" for="file-input">
+            <span>↑</span>
+            <span id="upload-text">Upload your file</span>
+          </label>
+          <input type="file" id="file-input" name="Dataset">
+        </div>
+
+        <button class="submit-btn" type="submit">Evaluate</button>
+
+        {% if x %}
+        <div class="result-box" style="display:block;">{{x}}</div>
+        {% endif %}
+      </div>
+    </form>
+
+    {%elif opt=="Clustering"%}
+    
+    <form action="/result/{{opt}}" method="POST" enctype="multipart/form-data">
+      <div class="stack">
+        <div>
+          <p class="page-title">{{opt}}</p>
+          <p class="page-sub">Pick a model, upload your dataset, and we'll score it.</p>
+        </div>
+
+        <div>
+          <label class="field-label">Model</label>
+          <div class="select-wrap">
+            <select name="model_name" id="model_name">
+              {% for option in options %}
+              <option value="{{option}}">{{option}}</option>
+              {% endfor %}
+            </select>
+                        <span class="chevron">&#8964;</span>
+           
+          </div>
+        </div>
+         <div class = "n_clusters">
+            <label class="field-label">no of clusters</label>
+            <input type="number" name="n_clusters" id="n_clusters"> 
+            </div> 
+        <div>
+          <label class="field-label">Dataset</label>
+          <label class="upload-label" id="upload-label" for="file-input">
+            <span>↑</span>
+            <span id="upload-text">Upload your file</span>
+          </label>
+          <input type="file" id="file-input" name="Dataset">
+        </div>
+
+        <button class="submit-btn" type="submit">Evaluate</button>
+
+        {% if x %}
+        <div class="result-box" style="display:block;">{{x}}</div>
+        {% endif %}
+      </div>
+    </form>
+    
+    {%endif%}
+
+    <script>
+      const input = document.getElementById('file-input');
+      const label = document.getElementById('upload-label');
+      const text  = document.getElementById('upload-text');
+      input.addEventListener('change', () => {
+        if (input.files.length) {
+          text.textContent = input.files[0].name;
+          label.classList.add('has-file');
+        }
+      });
+    </script>
+  </body>
+</html>

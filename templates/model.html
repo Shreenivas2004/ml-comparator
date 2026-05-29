@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ML application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='model.css') }}">
+  </head>
+  <body>
+    <p class="model-title">{{model}}</p>
+
+    {% if report %}
+    <div class="metrics-card">
+      <span class="card-label">Metrics</span>
+      <div class="metric-row">
+        <span class="metric-name">Accuracy</span>
+        <span class="metric-value">{{accuracy}}</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-name">F1 Score</span>
+        <span class="metric-value">{{f1Score}}</span>
+      </div>
+      <div class="metric-row">
+      </div>
+    </div>
+    <pre>{{report}}</pre>
+    {% endif %}
+
+    {% if Accuracy %}
+      {% for key, value in Accuracy.items() %}
+      <p class="model-section-title">{{key}}</p>
+      <div class="metrics-card">
+        <span class="card-label">Metrics</span>
+        <div class="metric-row">
+          <span class="metric-name">Accuracy</span>
+          <span class="metric-value">{{value}}</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-name">F1 Score</span>
+          <span class="metric-value">{{F1Score[key]}}</span>
+        </div>
+        </div>
+      </div>
+      <pre>{{reports[key]}}</pre>
+      {% endfor %}
+    {% endif %}
+    <form method="POST" action="/">
+    </form>
+  </body>
+</html>

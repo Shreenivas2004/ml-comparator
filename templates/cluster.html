@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>ML application</title>
+        <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='cluster.css') }}">
+    </head>
+    <body>
+        {% if model != 'All' %}
+        <center>
+        <div id="chart" class="chart"></div>
+        <script>
+            var graphs = {{ graphjson | safe }};
+            Plotly.newPlot('chart', graphs, {});
+        </script>
+        <form action="/clustering" method="POST">
+                <h5>x_axis</h5>
+                <select aria-placeholder="x" name="x_axis" id="x_axis">
+                        {% for col in columns %}
+                        <option value="{{col}}">{{col}}</option>
+                        {% endfor %}
+                </select> 
+                <h5>y_axis</h5>
+                <select aria-placeholder="y" name="y_axis" id="y_axis">
+                        {% for col in columns %}
+                        <option value="{{col}}">{{col}}</option>
+                        {% endfor %}
+                </select> <br><br>
+                <button type="submit">submit</button>
+                
+        </form>
+                <form action="/result">
+                  <button type="submit">Back</button>
+                </form>
+        </center>
+        {% else %}
+             {% for name, graph_data in graphs.items() %}
+                <h3>{{ name }}</h3>
+                
+                <div id="chart_{{ loop.index }}" class="chart"></div>
+                
+                <script>
+                    var graphData_{{ loop.index }} = {{ graph_data | safe }};
+                    Plotly.newPlot('chart_{{ loop.index }}', graphData_{{ loop.index }}, {});
+                </script>
+            {% endfor %}                
+
+            <form action="/clustering" method="POST">
+                <h5>x_axis</h5>
+                <select  name="x_axis" id="x_axis">
+                        {% for col in columns %}
+                        <option value="{{col}}">{{col}}</option>
+                        {% endfor %}
+                </select> 
+                <h5>y_axis</h5>
+                <select  name="y_axis" id="y_axis">
+                        {% for col in columns %}
+                        <option value="{{col}}">{{col}}</option>
+                        {% endfor %}
+                </select> <br><br>
+                <button type="submit">submit</button>
+                
+        </form>
+        {% endif %}
+    </body>
+</html>
