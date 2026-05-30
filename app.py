@@ -157,6 +157,7 @@ def cluster():
     graphs = {}
     columns = df.columns.tolist()
     x,y=None,None
+    graph = None
     if request.method=="POST":
         x_data = request.form.get("x_axis")
         y_data=  request.form.get("y_axis")
@@ -168,7 +169,10 @@ def cluster():
         model.set_params(**params)
         model.fit(df)
         labels = model.labels_
-        graph = px.scatter(x = x,y = y,color=labels.astype(str), labels={"x":x.name,"y":y.name})
+        if x and y:
+            graph = px.scatter(x = x,y = y,color=labels.astype(str), labels={"x":x.name,"y":y.name})
+        else:
+            graph = px.scatter(x = df[x_data],y = df[y_data],color=labels.astype(str),labels={"x":x_data,"y":y_data} )
         graphjson = json.dumps(graph,cls = pu.PlotlyJSONEncoder)
         return render_template("cluster.html",  graphjson = graphjson, columns=columns, model = model_name )
     else:
